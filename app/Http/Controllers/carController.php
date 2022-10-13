@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CarController extends Controller
+class carController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,8 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        $cars = cars::all();
+        return view('car', compact('cars'));
     }
 
     /**
@@ -23,7 +24,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -34,7 +35,12 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $create = new products();
+        $create->name = request('name');
+        $create->price = request('price');
+        $create->save();
+
+        return redirect()->route('carController');
     }
 
     /**
@@ -51,12 +57,12 @@ class CarController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        return view('edit', compact($id));
     }
 
     /**
@@ -68,7 +74,12 @@ class CarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $car = cars::find($id);
+        $car->name = request('name');
+        $car->price = request('price');
+        $car->save();
+
+        return redirect()->route('carController');
     }
 
     /**
@@ -79,6 +90,8 @@ class CarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $car = cars::find($id);
+        $car->delete();
+        return redirect()->route('carController');
     }
 }

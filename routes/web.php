@@ -23,4 +23,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('cars', CarController::class);
+Route::resource('cars', carController::class);
+
+Route::get('/carController', [App\Http\Controllers\carController::class, 'index'])->name('carController');
+Route::get('/create', [App\Http\Controllers\carController::class, 'create'])->name('create');
+Route::post('/create', [App\Http\Controllers\carController::class, 'postCreate'])->name('create.post');
+Route::get('/delete/{id}', [App\Http\Controllers\carController::class, 'deleteProduct'])->name('car.destroy');
+Route::get('/edit/{id}', [App\Http\Controllers\carController::class, 'editProduct'])->name('edit.product');
+Route::post('/edit/{id}', [App\Http\Controllers\carController::class, 'postProduct'])->name('post.product');
