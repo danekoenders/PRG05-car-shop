@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Http\Request;
+use App\Models\Car;
 
 class carController extends Controller
 {
@@ -13,7 +15,7 @@ class carController extends Controller
      */
     public function index()
     {
-        $cars = cars::all();
+        $cars = car::all();
         return view('car', compact('cars'));
     }
 
@@ -35,12 +37,17 @@ class carController extends Controller
      */
     public function store(Request $request)
     {
-        $create = new products();
-        $create->name = request('name');
+        $create = new Car();
+        $create->user_id = \Auth::id();
+        $create->brand = request('brand');
+        $create->model = request('model');
+        $create->engine = request('engine');
+        $create->transmission = request('transmission');
+        $create->options = request('options');
         $create->price = request('price');
         $create->save();
 
-        return redirect()->route('carController');
+        return redirect()->route('cars.index');
     }
 
     /**
