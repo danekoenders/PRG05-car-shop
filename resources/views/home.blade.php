@@ -18,6 +18,10 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-8 mt-4">
+            <a href="{{ route('cars.index')}}" class="w-100 btn btn-primary">Our Stock</a>
+        </div>
     </div>
 </div>
 @endsection

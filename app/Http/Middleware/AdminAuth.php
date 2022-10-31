@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAuth
 {
@@ -17,7 +18,7 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (\Auth::user()->admin !== true) {
+        if (\Auth::user()->admin !== 1) {
             abort(Response::HTTP_FORBIDDEN);
         }
 

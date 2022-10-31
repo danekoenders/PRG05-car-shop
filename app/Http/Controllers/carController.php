@@ -38,21 +38,23 @@ class carController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        $create = new Car();
-        $create->user_id = \Auth::id();
-        $create->brand = request('brand');
-        $create->model = request('model');
-        $create->engine = request('engine');
-        $create->transmission = request('transmission');
-        $create->options = request('options');
-        $create->price = request('price');
-        $create->save();
+        $car = new Car();
 
-        return redirect()->route('cars.index');
+        $car->user_id = \Auth::id();
+        $car->brand = request('brand');
+        $car->model = request('model');
+        $car->engine = request('engine');
+        $car->transmission = request('transmission');
+        $car->options = request('options');
+        $car->price = request('price');
+
+        $car->save();
+
+        return redirect()->route('cars.index')->with(['message'=> 'Car Saved']);
     }
 
     /**
@@ -63,18 +65,20 @@ class carController extends Controller
      */
     public function show($id)
     {
-        //
+        $car = car::find($id);
+        return view('show',compact('car'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
-        return view('edit', compact($id));
+        $car = car::find($id);
+        return view('edit', compact('car'));
     }
 
     /**
@@ -82,28 +86,35 @@ class carController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        $car = cars::find($id);
-        $car->name = request('name');
+        $car = car::find($id);
+
+        $car->brand = request('brand');
+        $car->model = request('model');
+        $car->engine = request('engine');
+        $car->transmission = request('transmission');
+        $car->options = request('options');
         $car->price = request('price');
+
         $car->save();
 
-        return redirect()->route('carController');
+        return redirect()->route('cars.index')->with(['message'=> 'Updated Car']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        $car = cars::find($id);
+        $car = car::find($id);
         $car->delete();
-        return redirect()->route('carController');
+
+        return redirect()->route('cars.index')->with(['message'=> 'Deleted Car']);
     }
 }
