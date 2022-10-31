@@ -10,7 +10,8 @@ class carController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin')->except('index');
+        $this->middleware('admin')->except('index', 'show'); // Checkt of user admin is anders mag hij geen fucntionaliteiten behalve index en show.
+        $this->middleware('auth'); // Checkt of user uberhaubt ingelogd is anders mag hij er helemaal niet in.
     }
 
     /**
@@ -42,6 +43,12 @@ class carController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'brand'=>'required',
+            'model'=>'required',
+            'price'=>'required|numeric|min:10000|max:500000'
+        ]);
+
         $car = new Car();
 
         $car->user_id = \Auth::id();
@@ -54,7 +61,7 @@ class carController extends Controller
 
         $car->save();
 
-        return redirect()->route('cars.index')->with(['message'=> 'Car Saved']);
+        return redirect()->route('admin')->with(['message'=> 'Car Saved']);
     }
 
     /**
@@ -90,6 +97,12 @@ class carController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'brand'=>'required',
+            'model'=>'required',
+            'price'=>'required|numeric|min:10000|max:500000'
+        ]);
+
         $car = car::find($id);
 
         $car->brand = request('brand');
@@ -101,7 +114,7 @@ class carController extends Controller
 
         $car->save();
 
-        return redirect()->route('cars.index')->with(['message'=> 'Updated Car']);
+        return redirect()->route('admin')->with(['message'=> 'Updated Car']);
     }
 
     /**
@@ -115,6 +128,6 @@ class carController extends Controller
         $car = car::find($id);
         $car->delete();
 
-        return redirect()->route('cars.index')->with(['message'=> 'Deleted Car']);
+        return redirect()->route('admin')->with(['message'=> 'Deleted Car']);
     }
 }

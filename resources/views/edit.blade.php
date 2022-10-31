@@ -3,14 +3,14 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <h1>Edit page</h1>
+            <h1>Edit Car</h1>
 
             <form action="{{ route('cars.update', $car->id) }}" method="post">
                 @method('PUT')
                 @csrf {{ csrf_field() }}
 
                 <label for="brand">Brand</label>
-                <input type="text" name="brand" value="{{ $car->brand }}">
+                <input type="text" name="brand" value="{{ $car->brand }}" required>
 
                 <label for="model">Model</label>
                 <input type="text" name="model" value="{{ $car->model }}">
@@ -25,10 +25,22 @@
                 <input type="text" name="options" value="{{ $car->options }}">
 
                 <label for="body">Price</label>
-                <input type="number" name="price" value="{{ $car->price }}">
+                <input type="number" name="price" value="{{ $car->price }}" required>
 
                 <button type="submit" class="btn btn-primary">Update Car</button>
             </form>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <a href="{{route('admin')}}">Terug naar de Admin page</a>
         </div>
     </div>
 @endsection

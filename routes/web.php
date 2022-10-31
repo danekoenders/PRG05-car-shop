@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\carController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('cars', carController::class);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('cars', carController::class);
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+
+Route::get('/admin/status', [App\Http\Controllers\AdminController::class, 'status'])->name('admin.status');
+
