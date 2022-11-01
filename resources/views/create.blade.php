@@ -43,7 +43,7 @@
                 </div>
             @endif
 
-            <a href="{{route('admin')}}">Terug naar de Admin page</a>
+            <a href="{{route('admin')}}" class="w-25 mt-3 btn btn-primary">Admin</a>
         </div>
     </div>
 @endsection

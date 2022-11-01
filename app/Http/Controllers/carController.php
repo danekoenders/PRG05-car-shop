@@ -45,7 +45,7 @@ class carController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'brand'=>'required',
+            'brand'=>'required|in:Ferrari,Porsche,BMW,Ford',
             'model'=>'required',
             'price'=>'required|numeric|min:10000|max:500000'
         ]);
@@ -109,7 +109,7 @@ class carController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'brand'=>'required',
+            'brand'=>'required|in:Ferrari,Porsche,BMW,Ford',
             'model'=>'required',
             'price'=>'required|numeric|min:10000|max:500000'
         ]);

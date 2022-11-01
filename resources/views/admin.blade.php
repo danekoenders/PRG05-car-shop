@@ -5,11 +5,21 @@
         <div class="row justify-content-center">
             <h1>Admin page</h1>
 
-            <a href="{{route('cars.create')}}" class="btn btn-primary">Create</a>
+            <a href="{{route('cars.create')}}" class="mb-3 btn btn-primary">Create</a>
 
             <table>
+                <tr class="p-4 bg-secondary">
+                    <th class="text-white">Brand</th>
+                    <th class="text-white">Model</th>
+                    <th class="text-white">Engine</th>
+                    <th class="text-white">Transmission</th>
+                    <th class="text-white">Options</th>
+                    <th class="text-white">Price</th>
+                    <th class="text-white">Status</th>
+                    <th class="text-white">Edit</th>
+                    <th class="text-white">Delete</th>
+                </tr>
                 @foreach ($cars as $car)
-
                     <tr>
                         <td>{{$car['brand']}}</td>
                         <td>{{$car['model']}}</td>
@@ -61,7 +71,7 @@
 
             </table>
 
-            <a href="{{route('cars.index')}}">Terug naar de Car page</a>
+            <a href="{{route('cars.index')}}" class="w-25 mt-3 btn btn-primary">Our Stock</a>
         </div>
     </div>
 @endsection

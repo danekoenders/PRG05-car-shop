@@ -14,7 +14,7 @@
             <li>{{ $car->price }}</li>
         </ul>
 
-        <a href="{{route('cars.index')}}">Terug naar de Cars page</a>
+        <a href="{{route('cars.index')}}" class="w-25 mt-3 btn btn-primary">Our Stock</a>
     </div>
 </div>
 @endsection

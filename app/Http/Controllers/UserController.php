@@ -24,11 +24,11 @@ class UserController extends Controller
     public function index()
     {
         $user = User::find(\Auth::id());
-        $carCount = Car::where('user_id', '=', \Auth::id())->count();
 
         if ($user->id !== \Auth::id()) {
             abort(Response::HTTP_FORBIDDEN);
         } else {
+            $carCount = Car::where('user_id', '=', \Auth::id())->count();
             return view('profile', compact('user', 'carCount'));
         }
     }
