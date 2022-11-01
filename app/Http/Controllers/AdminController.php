@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Car;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use App\Models\Car;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -25,17 +25,19 @@ class AdminController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Update the status of the car.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function status(Request $request, $id)
+    public function status(Request $request)
     {
         $request->validate([
             'status'=>'boolean'
         ]);
 
-        $car = car::find($id);
+        $car = car::find(request('id'));
 
         $car->status = request('status');
 

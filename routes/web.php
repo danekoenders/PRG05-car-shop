@@ -27,5 +27,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
 
-Route::get('/admin/status', [App\Http\Controllers\AdminController::class, 'status'])->name('admin.status');
+Route::put('/status', [App\Http\Controllers\AdminController::class, 'status'])->name('admin.status');
+
+Route::get('/profile', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+Route::put('/profile/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
+Route::get('/filter', '\App\Http\Controllers\carController@filter');
+Route::get('/search', '\App\Http\Controllers\carController@search');
+
 

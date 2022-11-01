@@ -8,7 +8,12 @@
             <form action="{{route('cars.store')}}" method="post">
                 @csrf {{ csrf_field() }}
                 <label for="brand">Brand</label>
-                <input type="text" name="brand" required>
+                <select name="brand" required>
+                    <option value="Ferrari">Ferrari</option>
+                    <option value="Porsche">Porsche</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Ford">Ford</option>
+                </select>
 
                 <label for="model">Model</label>
                 <input type="text" name="model">

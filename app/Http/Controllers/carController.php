@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Http\Request;
 use App\Models\Car;
+use Illuminate\Http\Response;
 
 class carController extends Controller
 {
@@ -73,19 +74,29 @@ class carController extends Controller
     public function show($id)
     {
         $car = car::find($id);
-        return view('show',compact('car'));
+
+        if ($car->status === 0) {
+            abort(Response::HTTP_FORBIDDEN);
+        } else {
+            return view('show', compact('car'));
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $car = car::find($id);
-        return view('edit', compact('car'));
+
+        if ($car->user_id !== \Auth::id()) {
+            abort(Response::HTTP_FORBIDDEN);
+        } else {
+            return view('edit', compact('car'));
+        }
     }
 
     /**
@@ -105,16 +116,20 @@ class carController extends Controller
 
         $car = car::find($id);
 
-        $car->brand = request('brand');
-        $car->model = request('model');
-        $car->engine = request('engine');
-        $car->transmission = request('transmission');
-        $car->options = request('options');
-        $car->price = request('price');
+        if ($car->user_id !== \Auth::id()) {
+            abort(Response::HTTP_FORBIDDEN);
+        } else {
+            $car->brand = request('brand');
+            $car->model = request('model');
+            $car->engine = request('engine');
+            $car->transmission = request('transmission');
+            $car->options = request('options');
+            $car->price = request('price');
 
-        $car->save();
+            $car->save();
 
-        return redirect()->route('admin')->with(['message'=> 'Updated Car']);
+            return redirect()->route('admin')->with(['message'=> 'Updated Car']);
+        }
     }
 
     /**
@@ -126,8 +141,36 @@ class carController extends Controller
     public function destroy($id)
     {
         $car = car::find($id);
-        $car->delete();
 
-        return redirect()->route('admin')->with(['message'=> 'Deleted Car']);
+        if ($car->user_id !== \Auth::id()) {
+            abort(Response::HTTP_FORBIDDEN);
+        } else {
+            $car->delete();
+
+            return redirect()->route('admin')->with(['message'=> 'Deleted Car']);
+        }
+    }
+
+    public function filter(Request $request)
+    {
+        $filter_term = $request->query('brand');
+
+        $cars = Car::where('brand', 'like', '%' . $filter_term . '%')->get();
+
+        return view('car', compact('cars'));
+    }
+
+    public function search(Request $request)
+    {
+        $search_term = $request->query('text');
+
+        $cars = Car::where('brand', 'like', '%' . $search_term . '%')
+            ->orWhere('model', 'like', '%' . $search_term . '%')
+            ->orWhere('engine', 'like', '%' . $search_term . '%')
+            ->orWhere('transmission', 'like', '%' . $search_term . '%')
+            ->orWhere('options', 'like', '%' . $search_term . '%')
+            ->orWhere('price', 'like', '%' . $search_term . '%')->get();
+
+        return view('car', compact('cars'));
     }
 }
