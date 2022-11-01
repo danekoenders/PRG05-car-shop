@@ -22,7 +22,7 @@ class carController extends Controller
      */
     public function index()
     {
-        $cars = car::all();
+        $cars = Car::all();
         return view('car', compact('cars'));
     }
 
@@ -73,7 +73,7 @@ class carController extends Controller
      */
     public function show($id)
     {
-        $car = car::find($id);
+        $car = Car::find($id);
 
         if ($car->status === 0) {
             abort(Response::HTTP_FORBIDDEN);
@@ -90,7 +90,7 @@ class carController extends Controller
      */
     public function edit($id)
     {
-        $car = car::find($id);
+        $car = Car::find($id);
 
         if ($car->user_id !== \Auth::id()) {
             abort(Response::HTTP_FORBIDDEN);
@@ -114,7 +114,7 @@ class carController extends Controller
             'price'=>'required|numeric|min:10000|max:500000'
         ]);
 
-        $car = car::find($id);
+        $car = Car::find($id);
 
         if ($car->user_id !== \Auth::id()) {
             abort(Response::HTTP_FORBIDDEN);

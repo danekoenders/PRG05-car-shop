@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -23,11 +24,12 @@ class UserController extends Controller
     public function index()
     {
         $user = User::find(\Auth::id());
+        $carCount = Car::where('user_id', '=', \Auth::id())->count();
 
         if ($user->id !== \Auth::id()) {
             abort(Response::HTTP_FORBIDDEN);
         } else {
-            return view('profile', compact('user'));
+            return view('profile', compact('user', 'carCount'));
         }
     }
 

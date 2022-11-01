@@ -22,7 +22,7 @@
                                 <form action="{{ route('admin.status')}}" method="post">
                                     @csrf {{ csrf_field() }}
                                     @method('PUT')
-                                    <input type="hidden" name="id" value="{{ $car->id }}}">
+                                    <input type="hidden" name="id" value="{{ $car->id }}">
                                     <input type="hidden" name="status" value="1">
                                     <button class="btn btn-secondary" type="submit">Disabled</button>
                                 </form>
@@ -30,7 +30,7 @@
                                 <form action="{{ route('admin.status')}}" method="post">
                                     @csrf {{ csrf_field() }}
                                     @method('PUT')
-                                    <input type="hidden" name="id" value="{{ $car->id }}}">
+                                    <input type="hidden" name="id" value="{{ $car->id }}">
                                     <input type="hidden" name="status" value="0">
                                     <button class="btn btn-primary" type="submit">Enabled</button>
                                 </form>
